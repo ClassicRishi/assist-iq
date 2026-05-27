@@ -1,0 +1,67 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    title Assist IQ | User Dashboard
+    link(rel='preconnect', href='https://fonts.googleapis.com')
+    link(rel='preconnect', href='https://fonts.gstatic.com', crossorigin)
+    link(
+      href='https://fonts.googleapis.com/css2?family=Matangi:wght@400;600;700&family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap',
+      rel='stylesheet'
+    )
+    link(rel='stylesheet', href='/css/user.css')
+  body
+    div(class='user-app')
+      header(class='user-header')
+        div(class='brand')
+          span(class='brand-icon') AI
+          span(class='brand-name') Assist IQ
+        div(class='user-meta')
+          span(class='user-greeting') Welcome back, #{profile.name.split(' ')[0]}
+          a(class='btn btn-outline', href='/') Home
+
+      section(class='profile-section')
+        div(class='profile-card')
+          div(class='profile-avatar')
+            span(class='avatar-initials')= profile.initials
+            span(class='profile-status')= "Active"
+          div(class='profile-details')
+            h2= profile.name
+            p(class='profile-email')= profile.email
+            div(class='profile-info-grid')
+              div(class='profile-info-item')
+                span(class='info-label') Phone
+                span(class='info-value')= profile.phone
+              div(class='profile-info-item')
+                span(class='info-label') Location
+                span(class='info-value')= profile.location
+              div(class='profile-info-item')
+                span(class='info-label') Member Since
+                span(class='info-value')= profile.memberSince
+          div(class='profile-actions')
+            button(class='btn btn-outline', type='button') Edit Profile
+            button(class='btn btn-primary', type='button') Update Location
+
+      section(class='user-hero')
+        p(class='tagline') User Dashboard
+        h1 Real-time help at your fingertips
+        p(class='subtext') Request emergency and lifestyle services instantly from one place.
+
+      section(class='service-dashboard')
+        each service in services
+          article(class='service-tile')
+            div(class='service-icon')= service.icon
+            h2= service.title
+            p= service.description
+            button(class='btn btn-primary', type='button')= service.action
+
+      section(class='quick-actions')
+        h2 Quick Emergency
+        div(class='action-row')
+          button(class='btn btn-outline', type='button') SOS Alert
+          button(class='btn btn-outline', type='button') Share Location
+          button(class='btn btn-primary', type='button') Call Support
+
+      footer(class='user-footer')
+        p &copy; #{year} Assist IQ. All rights reserved.

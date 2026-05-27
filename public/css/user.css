@@ -1,0 +1,307 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Nunito", "Segoe UI", Arial, sans-serif;
+  background: radial-gradient(circle at top, #1a1a1a 0%, #0f0f0f 42%, #000000 100%);
+  color: #d1fae5;
+  min-height: 100vh;
+}
+
+.user-app {
+  width: min(1150px, 92%);
+  margin: 2rem auto 3rem;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border-radius: 16px;
+  background: rgba(12, 12, 12, 0.92);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.brand-icon {
+  font-family: "Quicksand", sans-serif;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 0.3rem 0.55rem;
+}
+
+.brand-name {
+  font-family: "Matangi", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.user-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.user-greeting {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.9rem;
+  color: #bbf7d0;
+}
+
+.profile-section {
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(6, 78, 59, 0.28), rgba(4, 20, 14, 0.95));
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  padding: 1.4rem;
+}
+
+.profile-card {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.2rem;
+  align-items: center;
+}
+
+.profile-avatar {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+}
+
+.avatar-initials {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: "Matangi", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #052e16;
+  background: linear-gradient(145deg, #4ade80, #22c55e);
+  border: 2px solid rgba(34, 197, 94, 0.8);
+}
+
+.profile-status {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #22c55e;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(34, 197, 94, 0.5);
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.profile-details h2 {
+  font-family: "Matangi", sans-serif;
+  font-size: 1.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.profile-email {
+  font-family: "Nunito", sans-serif;
+  color: #bbf7d0;
+  margin-bottom: 0.9rem;
+}
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.profile-info-item {
+  display: grid;
+  gap: 0.2rem;
+}
+
+.info-label {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #22c55e;
+}
+
+.info-value {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.92rem;
+  color: #d1fae5;
+}
+
+.profile-actions {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+}
+
+.user-hero {
+  padding: 1.6rem;
+  border-radius: 18px;
+  background: linear-gradient(150deg, rgba(18, 18, 18, 0.96), rgba(5, 5, 5, 0.92));
+  border: 1px solid rgba(34, 197, 94, 0.45);
+}
+
+.user-hero h1 {
+  font-family: "Matangi", sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  margin-bottom: 0.6rem;
+}
+
+.tagline {
+  font-family: "Quicksand", sans-serif;
+  color: #22c55e;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.78rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtext {
+  font-family: "Nunito", sans-serif;
+  color: #a7f3d0;
+  line-height: 1.6;
+}
+
+.service-dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.service-tile {
+  background: rgba(12, 12, 12, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  border-radius: 16px;
+  padding: 1.2rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.service-icon {
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: rgba(34, 197, 94, 0.15);
+  color: #22c55e;
+  font-size: 1.2rem;
+}
+
+.service-tile h2 {
+  font-family: "Nunito", sans-serif;
+  font-size: 1.05rem;
+  color: #22c55e;
+}
+
+.service-tile p {
+  font-family: "Nunito", sans-serif;
+  color: #bbf7d0;
+  line-height: 1.5;
+  font-size: 0.92rem;
+}
+
+.quick-actions {
+  padding: 1.2rem;
+  border-radius: 16px;
+  background: rgba(12, 12, 12, 0.9);
+  border: 1px solid rgba(34, 197, 94, 0.45);
+}
+
+.quick-actions h2 {
+  font-family: "Nunito", sans-serif;
+  color: #22c55e;
+  margin-bottom: 0.8rem;
+}
+
+.action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.btn {
+  font-family: "Quicksand", sans-serif;
+  border-radius: 999px;
+  padding: 0.62rem 1.1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #22c55e;
+  color: #052e16;
+  border: 1px solid #22c55e;
+}
+
+.btn-primary:hover {
+  background: #4ade80;
+}
+
+.btn-outline {
+  background: transparent;
+  color: #d1fae5;
+  border: 1px solid rgba(34, 197, 94, 0.7);
+}
+
+.btn-outline:hover {
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.user-footer {
+  text-align: center;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.85rem;
+  color: rgba(187, 247, 208, 0.7);
+}
+
+@media (max-width: 900px) {
+  .profile-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .profile-avatar {
+    justify-items: center;
+  }
+
+  .profile-info-grid {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .profile-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 720px) {
+  .user-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .profile-actions {
+    grid-template-columns: 1fr;
+  }
+}

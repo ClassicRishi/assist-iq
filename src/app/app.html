@@ -1,0 +1,138 @@
+<main class="assist-home">
+  <header class="hero">
+    <nav class="top-nav">
+      <div class="brand">
+        <span class="brand-icon">AI</span>
+        <span class="brand-name">Assist IQ</span>
+      </div>
+      <div class="nav-actions">
+        <button type="button" class="btn btn-outline" (click)="openLogin()">Login</button>
+        <button type="button" class="btn btn-primary" (click)="openRegister()">Register</button>
+      </div>
+    </nav>
+
+    <section class="hero-content">
+      <p class="tagline">Real-time emergency and life support platform</p>
+      <h1>Instant help when every second matters.</h1>
+      <p class="hero-description">
+        Assist IQ connects you to instant food delivery, police station assistance,
+        first aid support, and vehicle rescue in one secure and intelligent app.
+      </p>
+      <div class="hero-cta">
+        <button type="button" class="btn btn-primary" (click)="openRegister()">Create Account</button>
+        <button type="button" class="btn btn-outline" (click)="openLogin()">Sign In</button>
+      </div>
+    </section>
+  </header>
+
+  <section class="service-grid">
+    <article class="service-card">
+      <h2>Instant Food Delivery</h2>
+      <p>Order meals quickly from nearby providers with live tracking and ETA updates.</p>
+    </article>
+    <article class="service-card">
+      <h2>Police Station Help</h2>
+      <p>Reach local police support instantly with location-aware emergency requests.</p>
+    </article>
+    <article class="service-card">
+      <h2>First Aid Assistance</h2>
+      <p>Get immediate first aid guidance and connect to nearby medical responders.</p>
+    </article>
+    <article class="service-card">
+      <h2>Vehicle Assistance</h2>
+      <p>Request towing, fuel, battery, or repair help in real time from trusted partners.</p>
+    </article>
+  </section>
+
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h3>Welcome Back</h3>
+      <p>Already using Assist IQ? Sign in to access your dashboard.</p>
+      <button type="button" class="btn btn-outline block" (click)="openLogin()">Login</button>
+    </div>
+    <div class="auth-card highlight">
+      <h3>Join Assist IQ</h3>
+      <p>Create your account to access all real-time services.</p>
+      <button type="button" class="btn btn-primary block" (click)="openRegister()">Register</button>
+    </div>
+  </section>
+</main>
+
+@if (activeAuthModal() === 'login') {
+  <div class="auth-modal-overlay" (click)="onOverlayClick($event)">
+    <div class="auth-modal" role="dialog" aria-labelledby="login-title" aria-modal="true">
+      <button type="button" class="modal-close" (click)="closeAuthModal()" aria-label="Close login form">&times;</button>
+      <h3 id="login-title">Welcome Back</h3>
+      <p>Sign in to your Assist IQ account.</p>
+      <form class="auth-form auth-form-login" action="/login" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="form-field form-field-full">
+          <label for="loginEmail">Email</label>
+          <input id="loginEmail" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        </div>
+
+        <div class="form-field form-field-full">
+          <label for="loginPassword">Password</label>
+          <input id="loginPassword" type="password" name="password" placeholder="Enter password" required autocomplete="current-password" />
+        </div>
+
+        <button class="btn btn-outline form-submit" type="submit">Login</button>
+      </form>
+      <p class="modal-switch">
+        New here?
+        <button type="button" class="link-btn" (click)="openRegister()">Create an account</button>
+      </p>
+    </div>
+  </div>
+}
+
+@if (activeAuthModal() === 'register') {
+  <div class="auth-modal-overlay" (click)="onOverlayClick($event)">
+    <div class="auth-modal auth-modal-register highlight" role="dialog" aria-labelledby="register-title" aria-modal="true">
+      <button type="button" class="modal-close" (click)="closeAuthModal()" aria-label="Close register form">&times;</button>
+      <h3 id="register-title">Join Assist IQ</h3>
+      <p>Create your account to get instant real-time help.</p>
+      <form class="auth-form auth-form-register" action="/register" method="post" enctype="application/x-www-form-urlencoded">
+        <div class="form-field">
+          <label for="registerInitials">Initials</label>
+          <input id="registerInitials" type="text" name="initials" placeholder="e.g. RK" maxlength="4" autocomplete="off" />
+        </div>
+
+        <div class="form-field">
+          <label for="registerName">Full Name</label>
+          <input id="registerName" type="text" name="name" placeholder="Enter your full name" required autocomplete="name" />
+        </div>
+
+        <div class="form-field">
+          <label for="registerPhone">Phone</label>
+          <input id="registerPhone" type="tel" name="phone" placeholder="+91 98765 43210" required autocomplete="tel" />
+        </div>
+
+        <div class="form-field">
+          <label for="registerEmail">Email</label>
+          <input id="registerEmail" type="email" name="email" placeholder="you@example.com" required autocomplete="email" />
+        </div>
+
+        <div class="form-field form-field-full">
+          <label for="registerPassword">Password</label>
+          <input id="registerPassword" type="password" name="password" placeholder="Create password (min. 6 characters)" required minlength="6" autocomplete="new-password" />
+        </div>
+
+        <div class="form-field">
+          <label for="registerLocation">Location</label>
+          <input id="registerLocation" type="text" name="location" placeholder="City, State" required autocomplete="address-level1" />
+        </div>
+
+        <div class="form-field">
+          <label for="registerMembersince">Member Since</label>
+          <input id="registerMembersince" type="date" name="memberSince" required />
+        </div>
+
+        <button class="btn btn-primary form-submit" type="submit">Register</button>
+      </form>
+      <p class="modal-switch">
+        Already have an account?
+        <button type="button" class="link-btn" (click)="openLogin()">Sign in</button>
+      </p>
+    </div>
+  </div>
+}
