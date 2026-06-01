@@ -1,0 +1,506 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Assist IQ | First Aid Command Center
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(
+      href="https://fonts.googleapis.com/css2?family=Matangi:wght@500;700&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;700&display=swap",
+      rel="stylesheet"
+    )
+    style.
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        font-family: "Nunito", Arial, sans-serif;
+        background: radial-gradient(circle at top, #1a1a1a 0%, #0f0f0f 42%, #000000 100%);
+        color: #d1fae5;
+      }
+      .nav {
+        background: rgba(8, 12, 10, 0.95);
+        border-bottom: 1px solid rgba(34, 197, 94, 0.35);
+        padding: 0.85rem 1.25rem;
+      }
+      .nav-wrap {
+        width: min(1180px, 96%);
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        color: #d1fae5;
+        font-size: 1.2rem;
+      }
+      .brand-dot {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 4px;
+        background: #22c55e;
+      }
+      .enroll-btn {
+        text-decoration: none;
+        border-radius: 10px;
+        border: 1px solid #22c55e;
+        background: #22c55e;
+        color: #052e16;
+        padding: 0.45rem 0.85rem;
+        font-size: 0.82rem;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+      }
+      .hero {
+        width: min(1180px, 96%);
+        margin: 1rem auto 0;
+        border-radius: 14px;
+        overflow: hidden;
+        position: relative;
+        min-height: 420px;
+        display: grid;
+        align-items: center;
+        background:
+          linear-gradient(90deg, rgba(2, 18, 11, 0.78) 0%, rgba(2, 18, 11, 0.44) 45%, rgba(2, 18, 11, 0.2) 100%),
+          url("https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=1600&q=80")
+          center/cover no-repeat;
+      }
+      .hero-content {
+        width: min(560px, 92%);
+        margin-left: clamp(1.2rem, 4vw, 3.2rem);
+        color: #fff;
+      }
+      .hero h1 {
+        font-family: "Matangi", sans-serif;
+        font-size: clamp(2rem, 4.3vw, 3.7rem);
+        line-height: 1.06;
+        margin-bottom: 0.7rem;
+      }
+      .hero p {
+        color: #bbf7d0;
+        margin-bottom: 1rem;
+        line-height: 1.55;
+      }
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.55rem;
+      }
+      .hero-btn {
+        text-decoration: none;
+        border-radius: 10px;
+        padding: 0.58rem 0.92rem;
+        font-family: "Quicksand", sans-serif;
+        font-size: 0.82rem;
+        font-weight: 700;
+      }
+      .hero-btn-primary {
+        background: #22c55e;
+        color: #052e16;
+      }
+      .hero-btn-secondary {
+        background: rgba(0, 0, 0, 0.45);
+        color: #d1fae5;
+        border: 1px solid rgba(34, 197, 94, 0.65);
+      }
+      .stats {
+        width: min(1180px, 96%);
+        margin: 0 auto;
+        background: rgba(8, 12, 10, 0.96);
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        border-top: none;
+        border-radius: 0 0 14px 14px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.5rem;
+        padding: 1.2rem 1rem;
+      }
+      .stat {
+        text-align: center;
+      }
+      .stat-value {
+        color: #22c55e;
+        font-size: 2rem;
+        font-weight: 800;
+        line-height: 1;
+      }
+      .stat-label {
+        margin-top: 0.25rem;
+        color: #a7f3d0;
+        font-size: 0.86rem;
+      }
+      .section {
+        width: min(1180px, 96%);
+        margin: 2.2rem auto 0;
+      }
+      .section-title {
+        text-align: center;
+        font-family: "Matangi", sans-serif;
+        font-size: clamp(1.7rem, 3vw, 2.4rem);
+        color: #d1fae5;
+        margin-bottom: 0.35rem;
+      }
+      .section-subtitle {
+        text-align: center;
+        max-width: 760px;
+        margin: 0 auto 1.2rem;
+        color: #bbf7d0;
+      }
+      .services {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 1rem;
+      }
+      .service {
+        display: block;
+        text-decoration: none;
+        border: 1px solid rgba(34, 197, 94, 0.35);
+        border-radius: 14px;
+        padding: 1rem;
+        background: rgba(12, 12, 12, 0.96);
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .service:hover {
+        transform: translateY(-2px);
+        border-color: rgba(74, 222, 128, 0.65);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.28);
+      }
+      .service-head {
+        display: flex;
+        align-items: center;
+        gap: 0.55rem;
+        margin-bottom: 0.35rem;
+      }
+      .service-icon { font-size: 1.3rem; line-height: 1; }
+      .service h2 {
+        font-family: "Quicksand", sans-serif;
+        font-size: 1.05rem;
+        color: #22c55e;
+      }
+      .service p {
+        color: #a7f3d0;
+        font-size: 0.92rem;
+        line-height: 1.45;
+      }
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        padding: 1rem;
+        background: rgba(0, 0, 0, 0.66);
+        backdrop-filter: blur(8px);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .modal-overlay:target { display: flex; }
+      .modal-card {
+        width: min(860px, 96%);
+        border: 1px solid rgba(34, 197, 94, 0.45);
+        border-radius: 16px;
+        padding: 1rem;
+        background: rgba(10, 10, 10, 0.97);
+        box-shadow: 0 22px 48px rgba(0, 0, 0, 0.45);
+      }
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.3rem;
+      }
+      .dialog-title {
+        font-family: "Quicksand", sans-serif;
+        font-size: 1.05rem;
+        color: #4ade80;
+      }
+      .dialog-subtitle {
+        color: #a7f3d0;
+        font-size: 0.9rem;
+        margin-bottom: 0.9rem;
+      }
+      .close-btn {
+        text-decoration: none;
+        color: #d1fae5;
+        border: 1px solid rgba(34, 197, 94, 0.7);
+        border-radius: 999px;
+        padding: 0.25rem 0.7rem;
+        font-family: "Quicksand", sans-serif;
+        font-size: 0.8rem;
+      }
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+      }
+      .form-field { display: grid; gap: 0.3rem; }
+      .form-field-full { grid-column: 1 / -1; }
+      label { font-size: 0.82rem; color: #86efac; }
+      input, textarea, select {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        border: 1px solid rgba(34, 197, 94, 0.45);
+        color: #d1fae5;
+        border-radius: 10px;
+        padding: 0.6rem 0.7rem;
+        font-family: "Nunito", Arial, sans-serif;
+      }
+      textarea { min-height: 82px; resize: vertical; }
+      .btn {
+        justify-self: start;
+        border: 1px solid #22c55e;
+        background: #22c55e;
+        color: #052e16;
+        border-radius: 999px;
+        padding: 0.58rem 1.05rem;
+        font-weight: 700;
+        font-family: "Quicksand", sans-serif;
+      }
+      @media (max-width: 900px) {
+        .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      }
+      @media (max-width: 640px) {
+        .form-grid { grid-template-columns: 1fr; }
+        .stats { grid-template-columns: 1fr; }
+      }
+      .footer {
+        width: min(1180px, 96%);
+        margin: 2rem auto 1.5rem;
+        border-top: 1px solid rgba(34, 197, 94, 0.35);
+        padding-top: 0.85rem;
+        text-align: center;
+        color: rgba(187, 247, 208, 0.85);
+        font-family: "Quicksand", sans-serif;
+        font-size: 0.88rem;
+      }
+  body
+    div(class="nav")
+      div(class="nav-wrap")
+        div(class="brand")
+          span(class="brand-dot")
+          span Assist IQ
+
+    section(class="hero")
+      div(class="hero-content")
+        h1 A Minute Of Care Can Save A Life
+        p Instant Care Immediate Help
+
+    section(class="stats")
+      div(class="stat")
+        div(class="stat-value") 15,000+
+        div(class="stat-label") Cases Supported
+      div(class="stat")
+        div(class="stat-value") 98%
+        div(class="stat-label") Success Guidance Rate
+      div(class="stat")
+        div(class="stat-value") 25+
+        div(class="stat-label") Emergency Experts
+      div(class="stat")
+        div(class="stat-value") 100%
+        div(class="stat-label") Critical Service Coverage
+
+    section(class="section")
+      h2(class="section-title") Our First Aid Services
+      p(class="section-subtitle") Choose from our complete first-aid response services. Click any service to open its dedicated request form in the center dialog.
+      div(class="services")
+        a(class="service", href="#cpr-form")
+          div(class="service-head")
+            span(class="service-icon") &#10084;
+            h2 CPR Response
+          p Open CPR intake form for unresponsiveness, pulse checks, and breathing assistance events.
+
+        a(class="service", href="#cuts-form")
+          div(class="service-head")
+            span(class="service-icon") &#128137;
+            h2 Cuts & Bleeding
+          p Report wound severity, bleeding rate, and affected area for rapid first-aid guidance.
+
+        a(class="service", href="#burns-form")
+          div(class="service-head")
+            span(class="service-icon") &#128293;
+            h2 Burns Support
+          p Submit thermal, chemical, or electrical burn details with urgency and pain information.
+
+        a(class="service", href="#fracture-form")
+          div(class="service-head")
+            span(class="service-icon") &#129460;
+            h2 Fracture Assistance
+          p Capture injury location, mobility limits, and swelling for fracture stabilization help.
+
+        a(class="service", href="#ambulance-form")
+          div(class="service-head")
+            span(class="service-icon") &#128657;
+            h2 Ambulance Dispatch
+          p Share patient condition and exact pickup address for emergency transport coordination.
+
+    div(id="cpr-form", class="modal-overlay")
+      div(class="modal-card")
+        div(class="modal-head")
+          div(class="dialog-title") CPR Assistance Form
+          a(class="close-btn", href="/first-aid") Close
+        div(class="dialog-subtitle") Fill patient condition and immediate signs for priority CPR guidance.
+        form(action="/cpr-form/submit", method="post")
+          div(class="form-grid")
+            div(class="form-field")
+                label(for="cprName") Email
+                input(id="cprName", type="text", name="email", placeholder="Email", value=LoginedEmail)
+            div(class="form-field")
+              label(for="cprName") Patient Name
+              input(id="cprName", type="text", name="patientName", placeholder="Enter patient name")
+            div(class="form-field")
+              label(for="cprPhone") Contact Number
+              input(id="cprPhone", type="tel", name="phone", placeholder="+91 98xxxxxx")
+            div(class="form-field")
+              label(for="cprBreathing") Breathing Status
+              select(id="cprBreathing", name="breathingStatus")
+                option(value="not-sure") Not Sure
+                option(value="slow") Slow / Irregular
+                option(value="none") Not Breathing
+            div(class="form-field")
+              label(for="cprPulse") Pulse Status
+              select(id="cprPulse", name="pulseStatus")
+                option(value="unknown") Unknown
+                option(value="weak") Weak
+                option(value="none") Not Found
+            div(class="form-field form-field-full")
+              label(for="cprNote") Situation Details
+              textarea(id="cprNote", name="details", placeholder="Describe current condition and actions already taken")
+            button(class="btn", type="submit") Submit CPR Request
+
+    div(id="cuts-form", class="modal-overlay")
+      div(class="modal-card")
+        div(class="modal-head")
+          div(class="dialog-title") Treating Cuts Form
+          a(class="close-btn", href="/first-aid") Close
+        div(class="dialog-subtitle") Provide bleeding severity and wound details for immediate treatment steps.
+        form(action="/cuts-form/submit", method="post")
+          div(class="form-grid")
+            div(class="form-field")
+                label(for="cprName") Email
+                input(id="cprName", type="text", name="email", placeholder="Email", value=LoginedEmail)
+            div(class="form-field")
+              label(for="cutName") Patient Name
+              input(id="cutName", type="text", name="patientName", placeholder="Enter patient name")
+            div(class="form-field")
+              label(for="cutDepth") Cut Severity
+              select(id="cutDepth", name="severity")
+                option(value="minor") Minor
+                option(value="moderate") Moderate
+                option(value="severe") Severe
+            div(class="form-field")
+              label(for="cutBleeding") Bleeding Level
+              select(id="cutBleeding", name="bleedingLevel")
+                option(value="light") Light
+                option(value="steady") Steady
+                option(value="heavy") Heavy
+            div(class="form-field")
+              label(for="cutArea") Injury Area
+              input(id="cutArea", type="text", name="injuryArea", placeholder="Hand, arm, leg...")
+            div(class="form-field form-field-full")
+              label(for="cutNote") Wound Details
+              textarea(id="cutNote", name="details", placeholder="Mention wound location, size, and contamination if any")
+            button(class="btn", type="submit") Submit Cuts Request
+
+    div(id="burns-form", class="modal-overlay")
+      div(class="modal-card")
+        div(class="modal-head")
+          div(class="dialog-title") Burns Assistance Form
+          a(class="close-btn", href="/first-aid") Close
+        div(class="dialog-subtitle") Share burn source and severity for fast cooling and escalation guidance.
+        form(action="/burns-form/submit", method="post")
+          div(class="form-grid")
+            div(class="form-field")
+                label(for="cprName") Email
+                input(id="cprName", type="text", name="email", placeholder="Email", value=LoginedEmail)
+            div(class="form-field")
+              label(for="burnName") Patient Name
+              input(id="burnName", type="text", name="patientName", placeholder="Enter patient name")
+            div(class="form-field")
+              label(for="burnType") Burn Type
+              select(id="burnType", name="burnType")
+                option(value="thermal") Thermal
+                option(value="chemical") Chemical
+                option(value="electrical") Electrical
+            div(class="form-field")
+              label(for="burnLevel") Burn Severity
+              select(id="burnLevel", name="burnSeverity")
+                option(value="mild") Mild
+                option(value="moderate") Moderate
+                option(value="severe") Severe
+            div(class="form-field")
+              label(for="burnArea") Affected Area
+              input(id="burnArea", type="text", name="affectedArea", placeholder="Arm, chest, leg...")
+            div(class="form-field form-field-full")
+              label(for="burnNote") Burn Details
+              textarea(id="burnNote", name="details", placeholder="Mention pain level, blistering, and exposure source")
+            button(class="btn", type="submit") Submit Burns Request
+
+    div(id="fracture-form", class="modal-overlay")
+      div(class="modal-card")
+        div(class="modal-head")
+          div(class="dialog-title") Fracture Support Form
+          a(class="close-btn", href="/first-aid") Close
+        div(class="dialog-subtitle") Provide fracture indicators for immobilization and urgent referral.
+        form(action="/fracture-form/submit", method="post")
+          div(class="form-grid")
+            div(class="form-field")
+                label(for="cprName") Email
+                input(id="cprName", type="text", name="email", placeholder="Email", value=LoginedEmail)
+            div(class="form-field")
+              label(for="fractureName") Patient Name
+              input(id="fractureName", type="text", name="patientName", placeholder="Enter patient name")
+            div(class="form-field")
+              label(for="fractureArea") Injury Area
+              input(id="fractureArea", type="text", name="injuryArea", placeholder="Arm, leg, shoulder...")
+            div(class="form-field")
+              label(for="fractureMovement") Movement Ability
+              select(id="fractureMovement", name="movementAbility")
+                option(value="limited") Limited
+                option(value="painful") Painful
+                option(value="unable") Unable to Move
+            div(class="form-field")
+              label(for="fractureSwelling") Swelling
+              select(id="fractureSwelling", name="swelling")
+                option(value="low") Low
+                option(value="moderate") Moderate
+                option(value="high") High
+            div(class="form-field form-field-full")
+              label(for="fractureNote") Fracture Details
+              textarea(id="fractureNote", name="details", placeholder="Describe pain, deformity, swelling, and incident type")
+            button(class="btn", type="submit") Submit Fracture Request
+
+    div(id="ambulance-form", class="modal-overlay")
+      div(class="modal-card")
+        div(class="modal-head")
+          div(class="dialog-title") Ambulance Request Form
+          a(class="close-btn", href="/first-aid") Close
+        div(class="dialog-subtitle") Enter complete pickup and patient information for dispatch coordination.
+        form(action="/ambulance-form/submit", method="post")
+          div(class="form-grid")
+            div(class="form-field")
+                label(for="cprName") Email
+                input(id="cprName", type="text", name="email", placeholder="Email", value=LoginedEmail)
+            div(class="form-field")
+              label(for="ambulanceName") Patient Name
+              input(id="ambulanceName", type="text", name="patientName", placeholder="Enter patient name")
+            div(class="form-field")
+              label(for="ambulancePhone") Contact Number
+              input(id="ambulancePhone", type="tel", name="phone", placeholder="+91 98xxxxxx")
+            div(class="form-field")
+              label(for="ambulanceCondition") Condition
+              select(id="ambulanceCondition", name="condition")
+                option(value="critical") Critical
+                option(value="serious") Serious
+                option(value="stable") Stable but urgent
+            div(class="form-field")
+              label(for="ambulanceLandmark") Nearby Landmark
+              input(id="ambulanceLandmark", type="text", name="landmark", placeholder="Nearest landmark")
+            div(class="form-field form-field-full")
+              label(for="ambulanceAddress") Pickup Address
+              textarea(id="ambulanceAddress", name="pickupAddress", placeholder="Enter full pickup address with area and pin code")
+            button(class="btn", type="submit") Submit Ambulance Request
+
+    footer(class="footer")

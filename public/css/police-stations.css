@@ -1,0 +1,298 @@
+.police-page {
+  min-height: 100vh;
+  overflow: hidden;
+  background: radial-gradient(circle at top, #1a1a1a 0%, #0f0f0f 42%, #000000 100%);
+  color: #d1fae5;
+}
+
+.police-layout {
+  display: grid;
+  grid-template-columns: minmax(320px, 420px) 1fr;
+  min-height: 100vh;
+}
+
+.police-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1rem 1.25rem;
+  background: linear-gradient(
+    180deg,
+    #050807 0%,
+    #0a0f0c 55%,
+    rgba(10, 15, 12, 0.98) 100%
+  );
+  border-right: 1px solid rgba(34, 197, 94, 0.45);
+  box-shadow:
+    4px 0 24px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(34, 197, 94, 0.08);
+  overflow: hidden;
+  z-index: 2;
+  position: relative;
+}
+
+.police-panel::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(34, 197, 94, 0.65) 20%,
+    rgba(74, 222, 128, 0.9) 50%,
+    rgba(34, 197, 94, 0.65) 80%,
+    transparent 100%
+  );
+  pointer-events: none;
+}
+
+.police-panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.police-panel-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.police-panel-brand-dot {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #22c55e, #16a34a);
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  box-shadow: 0 0 16px rgba(34, 197, 94, 0.35);
+  flex-shrink: 0;
+}
+
+.police-panel-title {
+  font-family: "Matangi", sans-serif;
+  font-size: 1.25rem;
+  color: #4ade80;
+  line-height: 1.2;
+  text-shadow: 0 0 24px rgba(34, 197, 94, 0.2);
+}
+
+.police-panel-subtitle {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.78rem;
+  color: #86efac;
+  margin-top: 0.2rem;
+}
+
+.police-panel .back-btn {
+  flex-shrink: 0;
+  border: 1px solid rgba(34, 197, 94, 0.45);
+  background: rgba(6, 78, 59, 0.35);
+  color: #bbf7d0;
+}
+
+.police-panel .back-btn:hover {
+  background: rgba(34, 197, 94, 0.18);
+  border-color: #4ade80;
+  color: #ecfdf5;
+}
+
+.police-status {
+  flex-shrink: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+  background: rgba(0, 0, 0, 0.35);
+  color: #bbf7d0;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  font-family: "Nunito", sans-serif;
+}
+
+.police-status.error {
+  border-color: rgba(248, 113, 113, 0.45);
+  color: #fecaca;
+}
+
+.police-list-hint {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #86efac;
+  flex-shrink: 0;
+}
+
+.police-station-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 197, 94, 0.55) rgba(0, 0, 0, 0.35);
+}
+
+.police-station-list::-webkit-scrollbar {
+  display: block !important;
+  width: 6px;
+}
+
+.police-station-list::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+
+.police-station-list::-webkit-scrollbar-thumb {
+  background: rgba(34, 197, 94, 0.45);
+  border-radius: 999px;
+}
+
+.police-station-card {
+  display: flex;
+  gap: 0.65rem;
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 12px;
+  background: rgba(6, 20, 12, 0.72);
+  padding: 0.7rem 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  color: inherit;
+}
+
+.police-station-card:hover {
+  border-color: rgba(34, 197, 94, 0.55);
+  background: rgba(34, 197, 94, 0.1);
+  transform: translateY(-1px);
+}
+
+.police-station-card.selected {
+  border-color: #4ade80;
+  background: rgba(34, 197, 94, 0.16);
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.police-station-rank {
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 8px;
+  background: rgba(37, 99, 235, 0.85);
+  color: #fff;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.police-station-card.selected .police-station-rank {
+  background: #22c55e;
+  color: #052e16;
+}
+
+.police-station-body {
+  min-width: 0;
+  flex: 1;
+}
+
+.police-station-name {
+  font-family: "Nunito", sans-serif;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #d1fae5;
+  margin-bottom: 0.15rem;
+}
+
+.police-station-meta {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.74rem;
+  color: #bbf7d0;
+  line-height: 1.4;
+}
+
+.police-station-distance {
+  margin-top: 0.25rem;
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #4ade80;
+}
+
+.police-map-wrap {
+  position: relative;
+  min-height: 100vh;
+  background: #050a07;
+}
+
+.police-map-wrap #policeMap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background: radial-gradient(ellipse at center, #0c1a12 0%, #050a07 70%);
+}
+
+.police-map-glow {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(34, 197, 94, 0.12) 0%, transparent 55%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(6, 78, 59, 0.18) 0%, transparent 50%);
+}
+
+.police-page .leaflet-control-zoom {
+  border: 1px solid rgba(34, 197, 94, 0.35) !important;
+  border-radius: 10px !important;
+  overflow: hidden;
+}
+
+.police-page .leaflet-control-zoom a {
+  background: linear-gradient(180deg, #0f1f17, #0a120e) !important;
+  color: #4ade80 !important;
+  border-color: rgba(34, 197, 94, 0.25) !important;
+}
+
+.police-page .leaflet-control-zoom a:hover {
+  background: rgba(34, 197, 94, 0.2) !important;
+  color: #ecfdf5 !important;
+}
+
+.police-page .leaflet-control-attribution {
+  background: rgba(5, 10, 7, 0.88) !important;
+  color: #86efac !important;
+  border-top: 1px solid rgba(34, 197, 94, 0.25);
+  border-left: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.police-page .leaflet-control-attribution a {
+  color: #4ade80 !important;
+}
+
+@media (max-width: 900px) {
+  .police-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 55vh;
+  }
+
+  .police-panel {
+    max-height: 45vh;
+    border-right: none;
+    border-bottom: 1px solid rgba(34, 197, 94, 0.45);
+  }
+
+  .police-map-wrap {
+    min-height: 55vh;
+  }
+}

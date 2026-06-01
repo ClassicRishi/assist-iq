@@ -1,7 +1,6 @@
-import { MongoClient, Db } from 'mongodb'
+import { MongoClient } from 'mongodb'
 import dotenv from 'dotenv'
-import { userServices } from './user-services'
-import { resolve } from 'node:path'
+import { userServices } from './user-services';
 
 dotenv.config()
 
@@ -11,7 +10,7 @@ await connection.connect()
 const database = await connection.db("assistiq")
 const collection = await database.collection('users')
 
-async function registerUser(userObj: any, res: any) {
+async function registerUser(userObj: any, res: any,  burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
     let doc = collection.find({email: userObj.email}).limit(1) as any;
     doc = doc.toArray();
     doc.then(async (response: any) => {
@@ -25,22 +24,22 @@ async function registerUser(userObj: any, res: any) {
                 location: userObj.location,
                 memberSince: userObj.memberSince
             });
-            res.render("user.pug", { profile: userObj, services: userServices })
+            res.render("user.pug", { profile: userObj, services: userServices, burns, ambulance, cpr, cuts, fracture })
         } else {
             res.send("Already Existed User !!");
         }
     })
 }
 
-async function loginUser(userObj: any, res: any) {
+async function loginUser(userObj: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
     let doc = collection.find({email: userObj.email}).limit(1) as any;
     doc = doc.toArray();
     doc.then((response: any) => {
         if(response.length == 0) {
-            alert("Please Register to continue !!")
+            res.send("Please Register to continue !!")
         } else {
             if(userObj.password == response[0].password) {
-                res.render("user.pug", { profile: response[0], services: userServices })
+                res.render("user.pug", { profile: response[0], services: userServices, burns, ambulance, cpr, cuts, fracture })
             }
             else {
                 res.send("Incorrect Password")
@@ -49,11 +48,43 @@ async function loginUser(userObj: any, res: any) {
     })
 }
 
+function updateUser(user: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+    collection.updateOne({ email: user.email }, { $set: {
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        location: user.location,
+        memberSince: user.memberSince,
+        initials: user.initials
+    } })
+    let doc = collection.find({email: user.email}).limit(1) as any;
+    doc = doc.toArray();
+    doc.then((response: any) => {
+        res.render("user.pug", { profile: response[0], services: userServices, burns, ambulance, cpr, cuts, fracture })
+    })
+}
+
+function BackToUserFromMechanic(email: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+    let doc = collection.find({email: email}).limit(1) as any;
+    doc = doc.toArray();
+    doc.then((response: any) => {
+        res.render("user.pug", { profile: response[0], services: userServices, burns, ambulance, cpr, cuts, fracture })
+    })
+}
+
 export class MongoAuth {
-    registerUser(user: any, res: any) {
-        registerUser(user, res);
+    registerUser(user: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+        registerUser(user, res, burns, ambulance, cpr, cuts, fracture);
     }
-    loginUser(user: any, res: any) {
-        loginUser(user, res);
+    loginUser(user: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+        loginUser(user, res, burns, ambulance, cpr, cuts, fracture);
+    }
+    updateUser(user: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+        updateUser(user, res, burns, ambulance, cpr, cuts, fracture);
+    }
+    BackToUserFromMechanic(email: any, res: any, burns: any, ambulance: any, cpr: any, cuts: any, fracture: any) {
+        BackToUserFromMechanic(email, res, burns, ambulance, cpr, cuts, fracture);
     }
 }
+
+export const db = database

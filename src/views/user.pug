@@ -1,67 +1,153 @@
 doctype html
-html(lang='en')
+html(lang="en")
   head
-    meta(charset='UTF-8')
-    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
     title Assist IQ | User Dashboard
-    link(rel='preconnect', href='https://fonts.googleapis.com')
-    link(rel='preconnect', href='https://fonts.gstatic.com', crossorigin)
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
     link(
-      href='https://fonts.googleapis.com/css2?family=Matangi:wght@400;600;700&family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap',
-      rel='stylesheet'
+      href="https://fonts.googleapis.com/css2?family=Matangi:wght@400;600;700&family=Nunito:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap",
+      rel="stylesheet"
     )
-    link(rel='stylesheet', href='/css/user.css')
+    link(rel="stylesheet", href="/css/user.css")
+
   body
-    div(class='user-app')
-      header(class='user-header')
-        div(class='brand')
-          span(class='brand-icon') AI
-          span(class='brand-name') Assist IQ
-        div(class='user-meta')
-          span(class='user-greeting') Welcome back, #{profile.name.split(' ')[0]}
-          a(class='btn btn-outline', href='/') Home
+    div(class="user-app")
+      header(class="user-header")
+        div(class="brand")
+          span(class="brand-icon") AI
+          span(class="brand-name") Assist IQ
+        div(class="user-meta")
+          span(id="userGreeting", class="user-greeting") Welcome back, #{profile.name.split(' ')[0]}
+          button(id="btnNotifications", class="notification-btn", type="button", aria-label="Open notifications")
+            span(class="notification-bell", aria-hidden="true") 🔔
+            span(id="notificationCount", class="notification-count")= burns.length+ambulance.length+cuts.length+fracture.length+cpr.length
+          a(class="btn btn-outline", href="/") Home
 
-      section(class='profile-section')
-        div(class='profile-card')
-          div(class='profile-avatar')
-            span(class='avatar-initials')= profile.initials
-            span(class='profile-status')= "Active"
-          div(class='profile-details')
-            h2= profile.name
-            p(class='profile-email')= profile.email
-            div(class='profile-info-grid')
-              div(class='profile-info-item')
-                span(class='info-label') Phone
-                span(class='info-value')= profile.phone
-              div(class='profile-info-item')
-                span(class='info-label') Location
-                span(class='info-value')= profile.location
-              div(class='profile-info-item')
-                span(class='info-label') Member Since
-                span(class='info-value')= profile.memberSince
-          div(class='profile-actions')
-            button(class='btn btn-outline', type='button') Edit Profile
-            button(class='btn btn-primary', type='button') Update Location
+      section(id="notificationPanel", class="notification-panel", hidden)
+        div(class="notification-head")
+          h3 Notifications
+          button(id="btnCloseNotifications", class="notification-close", type="button") Close
+        p(class="notification-subtext") Recent request activity is shown below.
+        div(id="notificationList", class="notification-list")
+          if burns.length == 0 && ambulance.length == 0 && cuts.length == 0 && fracture.length == 0 && cpr.length == 0
+            div(class="notification-empty") No requests yet.
+          else
+            each burn in burns
+              div(class="notification-item")
+                div(class="notification-item-top")
+                  div(class="notification-title")= burn.patientName
+                  div(class="notification-badge") Burns Assistance
+                div(class="notification-meta")= `Burn Type - ${burn.burnType}`
+                div(class="notification-meta")= `Affected Area - ${burn.affectedArea}`
+            each patient in ambulance
+              div(class="notification-item")
+                div(class="notification-item-top")
+                  div(class="notification-title")= patient.patientName
+                  div(class="notification-badge") Ambulance
+                div(class="notification-meta")= `Condition - ${patient.condition}`
+                div(class="notification-meta")= `Pickup Address - ${patient.pickupAddress}`
+            each doc in cpr
+              div(class="notification-item")
+                div(class="notification-item-top")
+                  div(class="notification-title")= doc.patientName
+                  div(class="notification-badge") CPR Assistance
+                div(class="notification-meta")= `Pulse - ${doc.pulseStatus}`
+                div(class="notification-meta")= `Breathing - ${doc.breathingStatus}`
+            each patient in cuts
+              div(class="notification-item")
+                div(class="notification-item-top")
+                  div(class="notification-title")= patient.patientName
+                  div(class="notification-badge") Body Cuts
+                div(class="notification-meta")= `Bleeding Level - ${patient.bleedingLevel}`
+                div(class="notification-meta")= `Injury Area - ${patient.injuryArea}`
+            each patient in fracture
+              div(class="notification-item")
+                div(class="notification-item-top")
+                  div(class="notification-title")= patient.patientName
+                  div(class="notification-badge") Fractures
+                div(class="notification-meta")= `Movement Ability - ${patient.movementAbility}`
+                div(class="notification-meta")= `Swelling - ${patient.swelling}`
 
-      section(class='user-hero')
-        p(class='tagline') User Dashboard
+
+      section(id="profileSection", class="profile-section")
+        div(id="profileView", class="profile-card")
+          div(class="profile-avatar")
+            span(id="profileInitials", class="avatar-initials")= profile.initials
+            span(class="profile-status", title="Active user status")
+              svg(class="profile-status-icon", viewBox="0 0 24 24", aria-hidden="true", xmlns="http://www.w3.org/2000/svg")
+                circle(class="profile-status-ripple", cx="12", cy="12", r="5.2", fill="none", stroke="currentColor", stroke-width="1.5")
+                circle(class="profile-status-dot-big", cx="12", cy="12", r="4.2", fill="currentColor")
+                path(d="M8.2 8.9h7.6", stroke="#052e16", stroke-width="1.2", stroke-linecap="round", fill="none")
+                path(d="M9.5 10.8h5", stroke="#052e16", stroke-width="1.2", stroke-linecap="round", fill="none")
+
+          div(class="profile-details")
+            h2(id="profileName")= profile.name
+            p(id="profileEmail", class="profile-email")= profile.email
+            div(class="profile-info-grid")
+              div(class="profile-info-item")
+                span(class="info-label") Phone
+                span(id="profilePhone", class="info-value")= profile.phone
+              div(class="profile-info-item")
+                span(class="info-label") Location
+                span(id="profileLocation", class="info-value")= profile.location
+              div(class="profile-info-item")
+                span(class="info-label") Member Since
+                span(id="profileMemberSince", class="info-value")= profile.memberSince
+          div(class="profile-actions")
+            button(id="btnEditProfile", class="btn btn-outline", type="button") Edit Profile
+            
+        form(id="profileEditPanel", class="profile-edit-panel", action='/savechanges', method='post' hidden)
+          div(class="profile-edit-header")
+            h3 Edit your profile
+            p Hover a field to highlight it, then update your details below.
+          div(class="profile-edit-grid")
+            div(class="edit-field")
+              label(for="editInitials") Initials
+              input(id="editInitials", type="text", maxlength="4", placeholder="e.g. RK", name='initials', value=profile.initials)
+            div(class="edit-field")
+              label(for="editName") Full Name
+              input(id="editName", type="text", required, placeholder="Full name", name='name', value=profile.name)
+            div(class="edit-field")
+              label(for="editEmail") Email
+              input(id="editEmail", type="email", required, placeholder="you@example.com", name='email', value=profile.email)
+            div(class="edit-field")
+              label(for="editPhone") Phone
+              input(id="editPhone", type="tel", placeholder="+91 98765 43210", name='phone', value=profile.phone)
+            div(class="edit-field edit-field-wide")
+              label(for="editLocation") Location
+              div(class="location-input-row")
+                input(id="editLocation", type="text", placeholder="City, State or coordinates", name='location', value=profile.location)
+                button(id="btnDetectEditLocation", class="btn btn-outline btn-location", type="button") Detect location
+            div(class="edit-field")
+              label(for="editMemberSince") Member Since
+              input(id="editMemberSince", type="text", placeholder="May 2026", name='memberSince', value=profile.memberSince)
+          div(class="profile-edit-actions")
+            input(id="btnSaveProfile", class="btn btn-primary", type='submit' value='Save changes', onclick='() => location.reload()')
+            button(id="btnCancelEdit", class="btn btn-outline", type="button") Cancel
+
+      section(class="user-hero")
+        p(class="tagline") User Dashboard
         h1 Real-time help at your fingertips
-        p(class='subtext') Request emergency and lifestyle services instantly from one place.
+        p(class="subtext") Request emergency and lifestyle services instantly from one place.
 
-      section(class='service-dashboard')
+      section(class="service-dashboard")
         each service in services
-          article(class='service-tile')
-            div(class='service-icon')= service.icon
+          article(class="service-tile")
+            div(class="service-icon")= service.icon
             h2= service.title
             p= service.description
-            button(class='btn btn-primary', type='button')= service.action
+            a(class="btn btn-primary", href=service.route)= service.action
 
-      section(class='quick-actions')
+      section(class="quick-actions")
         h2 Quick Emergency
-        div(class='action-row')
-          button(class='btn btn-outline', type='button') SOS Alert
-          button(class='btn btn-outline', type='button') Share Location
-          button(class='btn btn-primary', type='button') Call Support
+        div(class="action-row")
+          button(class="btn btn-outline", type="button") SOS Alert
+          button(id="btnShareLocation", class="btn btn-outline", type="button") Share Location
+          button(class="btn btn-primary", type="button") Call Support
 
-      footer(class='user-footer')
+      footer(class="user-footer")
         p &copy; #{year} Assist IQ. All rights reserved.
+    script(src="/js/user-notifications.js")
+    script(type="module", src="/js/user-profile.js")

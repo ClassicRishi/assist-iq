@@ -1,0 +1,78 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title AssistIQ | First Aid Response Added
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(
+      href="https://fonts.googleapis.com/css2?family=Matangi:wght@500;700&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;700&display=swap",
+      rel="stylesheet"
+    )
+    style.
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        font-family: "Nunito", Arial, sans-serif;
+        background: radial-gradient(circle at top, #1a1a1a 0%, #0f0f0f 42%, #000000 100%);
+        color: #d1fae5;
+      }
+      .card {
+        width: min(620px, 92%);
+        border: 1px solid rgba(34, 197, 94, 0.45);
+        border-radius: 18px;
+        padding: 1.6rem;
+        text-align: center;
+        background: linear-gradient(145deg, rgba(6, 78, 59, 0.3), rgba(4, 20, 14, 0.95));
+        box-shadow: 0 24px 56px rgba(0, 0, 0, 0.45);
+      }
+      .tick {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+        border: 2px solid rgba(34, 197, 94, 0.8);
+        display: grid;
+        place-items: center;
+        color: #22c55e;
+        font-size: 2rem;
+        font-weight: 700;
+        background: rgba(34, 197, 94, 0.12);
+      }
+      .title {
+        font-family: "Matangi", sans-serif;
+        font-size: clamp(1.7rem, 3.4vw, 2.4rem);
+        color: #4ade80;
+        margin-bottom: 0.45rem;
+      }
+      .text {
+        color: #bbf7d0;
+        margin-bottom: 0.65rem;
+      }
+      .name {
+        color: #d1fae5;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+        margin-bottom: 1.2rem;
+      }
+      .btn {
+        text-decoration: none;
+        display: inline-block;
+        border-radius: 999px;
+        padding: 0.6rem 1.1rem;
+        border: 1px solid #22c55e;
+        background: #22c55e;
+        color: #052e16;
+        font-family: "Quicksand", sans-serif;
+        font-weight: 700;
+      }
+  body
+    div(class="card")
+      div(class="tick") ✓
+      div(class="title") First Aid Response Taken
+      div(class="text") Your first aid response entry has been successfully added by:
+      div(class="name") #{responderName}
+      a(class="btn", href="/first-aid") Back to First Aid

@@ -117,9 +117,31 @@
           <input id="registerPassword" type="password" name="password" placeholder="Create password (min. 6 characters)" required minlength="6" autocomplete="new-password" />
         </div>
 
-        <div class="form-field">
+        <div class="form-field form-field-full">
           <label for="registerLocation">Location</label>
-          <input id="registerLocation" type="text" name="location" placeholder="City, State" required autocomplete="address-level1" />
+          <div class="location-input-row">
+            <input
+              id="registerLocation"
+              type="text"
+              name="location"
+              placeholder="City, State or use detect"
+              required
+              autocomplete="address-level1"
+            />
+            <button
+              type="button"
+              class="btn btn-outline btn-location"
+              [disabled]="locationLoading()"
+              (click)="detectRegisterLocation()"
+            >
+              {{ locationLoading() ? 'Detecting…' : 'Detect location' }}
+            </button>
+          </div>
+          @if (locationMessage()) {
+            <p class="location-hint" [class.location-hint-error]="locationMessage()?.includes('denied') || locationMessage()?.includes('Could not') || locationMessage()?.includes('unavailable') || locationMessage()?.includes('timed out')">
+              {{ locationMessage() }}
+            </p>
+          }
         </div>
 
         <div class="form-field">

@@ -62,7 +62,7 @@ body {
 }
 
 .hero-content h1 {
-  font-family: "Matangi", sans-serif;
+  font-family: "Nunito", sans-serif;
   font-size: clamp(1.8rem, 4vw, 3.1rem);
   max-width: 750px;
   line-height: 1.2;
@@ -274,6 +274,34 @@ body {
   margin-top: 0.35rem;
 }
 
+.location-input-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.btn-location {
+  white-space: nowrap;
+  padding-inline: 0.85rem;
+}
+
+.location-hint {
+  font-family: "Quicksand", sans-serif;
+  font-size: 0.8rem;
+  color: #86efac;
+  margin-top: 0.15rem;
+}
+
+.location-hint-error {
+  color: #fca5a5;
+}
+
+.btn:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
 .auth-form label {
   font-family: "Quicksand", sans-serif;
   font-size: 0.86rem;
@@ -357,6 +385,10 @@ body {
 
   .auth-modal-register {
     width: min(420px, 100%);
+  }
+
+  .location-input-row {
+    grid-template-columns: 1fr;
   }
 }
 

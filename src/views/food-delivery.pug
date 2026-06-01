@@ -1,0 +1,118 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    meta(name="color-scheme", content="dark")
+    title Assist IQ | Food Delivery
+    link(rel="preconnect", href="https://fonts.googleapis.com")
+    link(rel="preconnect", href="https://fonts.gstatic.com", crossorigin)
+    link(
+      href="https://fonts.googleapis.com/css2?family=Matangi:wght@500;700&family=Nunito:wght@400;600;700&family=Quicksand:wght@500;700&display=swap",
+      rel="stylesheet"
+    )
+    link(rel="stylesheet", href="/css/mechanic-dark.css")
+    link(rel="stylesheet", href="/css/food-delivery.css")
+    link(rel="stylesheet", href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css", integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=", crossorigin="")
+  body(class="mechanic-dark food-page")
+    nav(class="nav")
+      div(class="nav-wrap")
+        a(class="brand", href="/user")
+          span(class="brand-dot")
+          | AssistIQ
+        a(class="back-link", href="/food-back") Back to Dashboard
+        button(type="button", class="cart-toggle", id="btnCartToggle", aria-label="View cart")
+          a(href='/my-cart',class="cart-icon") 🛒
+
+    main(class="page food-main")
+      div(class="page-header")
+        h1 Explore Food
+        p Search dishes and restaurants across Tirupati — tap a card to view details.
+
+      section(class="food-toolbar")
+        div(class="food-search-wrap")
+          label(class="visually-hidden", for="foodSearch") Search food or hotel
+          input#foodSearch(
+            type="search",
+            autocomplete="off",
+            placeholder="Search food, hotel, or cuisine…",
+            aria-autocomplete="list",
+            aria-controls="foodAutocomplete",
+            aria-expanded="false"
+          )
+          span(class="food-search-icon", aria-hidden="true") 🔍
+          ul#foodAutocomplete(class="food-autocomplete", role="listbox", hidden)
+
+        div(class="food-filters", role="group", aria-label="Price filters")
+          button(type="button", class="food-filter-chip is-active", data-filter="all") All
+          button(type="button", class="food-filter-chip", data-filter="budget") Under ₹200
+          button(type="button", class="food-filter-chip", data-filter="mid") ₹200 – ₹500
+          button(type="button", class="food-filter-chip", data-filter="premium") Above ₹500
+
+      p#foodResultCount(class="food-result-count") Showing all dishes
+
+      div#foodGrid(class="food-grid")
+
+      aside#foodDetail(class="food-detail", hidden)
+        button(type="button", class="food-detail-close", id="btnCloseDetail", aria-label="Close details") ×
+        div(class="food-detail-image-wrap")
+          img#foodDetailImage(class="food-detail-image", src="", alt="")
+        form(class="food-detail-body", id="foodDetailForm", action="/add-to-cart", method="POST")
+          h2#foodDetailName
+          p#foodDetailHotel(class="food-detail-hotel")
+          p#foodDetailPrice(class="food-detail-price")
+          // Hidden inputs for form data
+          input(type="hidden", id="foodDetailEmail", name="email", value=email)
+          input(type="hidden", id="foodDetailNameInput", name="foodname", value="")
+          input(type="hidden", id="foodDetailHotelInput", name="hotelname", value="")
+          input(type="hidden", id="foodDetailPriceInput", name="price", value="")
+          input(type="hidden", id="foodDetailLatInput", name="latitude", value="")
+          input(type="hidden", id="foodDetailLngInput", name="longitude", value="")
+          input(type="hidden", id="foodDetailImageInput", name="image_url", value="")
+          div(class="food-quantity-selector")
+            button(type="button", class="qty-btn", id="btnQtyMinus", aria-label="Decrease quantity") −
+            input#foodQuantity(type="number", min="1", max="99", value="1", class="food-qty-input", name="quantity")
+            button(type="button", class="qty-btn", id="btnQtyPlus", aria-label="Increase quantity") +
+          button(type="submit", class="btn-submit food-order-btn", id="btnOrderFood") Add to Cart
+
+    aside#cartPanel(class="cart-panel", hidden)
+      div(class="cart-panel-header")
+        h2(class="cart-panel-title") Your Cart
+        button(type="button", class="cart-panel-close", id="btnCloseCart", aria-label="Close cart") ×
+      div(class="cart-panel-body")
+        div#cartItems(class="cart-items")
+        div#cartEmpty(class="cart-empty", hidden)
+          p Your cart is empty
+          p Add some delicious food from the menu!
+      div(class="cart-panel-footer")
+        div(class="cart-total")
+          span Total:
+          span#cartTotal(class="cart-total-amount") ₹0
+        button(type="button", class="btn-submit cart-checkout-btn", id="btnCheckout") Track on Map
+
+    // Map Modal for delivery route
+    aside#mapModal(class="map-modal", hidden)
+      div(class="map-modal-content")
+        div(class="map-modal-header")
+          h2(class="map-modal-title") Delivery Route
+          button(type="button", class="map-modal-close", id="btnCloseMap", aria-label="Close map") ×
+        div(class="map-modal-body")
+          div#deliveryMap(class="delivery-map")
+          div(class="map-modal-info")
+            div(class="map-location-info")
+              span(class="location-label") 📍 From:
+              span#userLocationText(class="location-text") Detecting your location...
+            div(class="map-location-info")
+              span(class="location-label") 🏪 To:
+              span#hotelLocationText(class="location-text") -
+            div(class="map-distance-info")
+              span#distanceText(class="distance-text") Calculating distance...
+        div(class="map-modal-footer")
+          button(type="button", class="btn-submit", id="btnConfirmOrder") Confirm & Place Order
+
+    footer(class="footer") AssistIQ
+
+    script#foodItemsData(type="application/json")!= JSON.stringify(foods)
+
+    script(src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=", crossorigin="")
+    script(src="/js/food-delivery.js")
