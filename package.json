@@ -10,7 +10,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:hospital-management": "node dist/hospital-management/server/server.mjs"
+    "postbuild": "cp dist/hospital-management/browser/index.html dist/hospital-management/server/index.server.html",
+    "build:ssr": "ng build && ng run hospital-management:server"
   },
   "prettier": {
     "printWidth": 100,
@@ -34,6 +35,7 @@
     "@angular/platform-server": "^20.2.0",
     "@angular/router": "^20.2.0",
     "@angular/ssr": "^20.2.0",
+    "@nguniversal/express-engine": "^16.2.0",
     "annyang": "^3.0.0",
     "axios": "^1.16.1",
     "dotenv": "^17.4.2",
