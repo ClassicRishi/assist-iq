@@ -17,7 +17,7 @@ export const policeStations: PoliceStation[] = resultset
 export function distanceMeters(
   lat1: number,
   lng1: number,
-  lat2: number,     
+  lat2: number,
   lng2: number,
 ): number {
   const earthRadius = 6371000;

@@ -289,16 +289,14 @@ app.use((req, res, next) => {
     .catch(next);
 });
 
-if (isMainModule(import.meta.url)) {
-  const port = process.env['PORT'] || 4000;
+const port = process.env['PORT'] || 4000;
   app.listen(port, (error) => {
     if (error) {
       throw error;
     }
-
+    console.log("Backend is running !!!!");
     console.log(`Node Express server listening on http://localhost:${port}`);
     console.log(`User dashboard available at http://localhost:${port}/user`);
   });
-}
 
-export default app;
+export const reqHandler = createNodeRequestHandler(app)

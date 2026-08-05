@@ -4,14 +4,12 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "clean:cache": "node scripts/clean-cache.mjs",
-    "start:clean": "node scripts/clean-cache.mjs && ng serve",
-    "restart": "node scripts/clean-cache.mjs && ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "postbuild": "cp dist/hospital-management/browser/index.html dist/hospital-management/server/index.server.html",
-    "build:ssr": "ng build && ng run hospital-management:server"
+    "build:ssr": "ng build && ng run hospital-management:server",
+    "serve:ssr": "ng build && ng serve && node dist/hospital-management/server/server.mjs"
   },
   "prettier": {
     "printWidth": 100,
