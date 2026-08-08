@@ -23,7 +23,7 @@ html(lang="en")
           button(id="btnNotifications", class="notification-btn", type="button", aria-label="Open notifications")
             span(class="notification-bell", aria-hidden="true") 🔔
             span(id="notificationCount", class="notification-count")= burns.length+ambulance.length+cuts.length+fracture.length+cpr.length
-          a(class="btn btn-outline", href="/") Home
+          a(class="btn btn-primary logout-btn", href="/logout") Logout
 
       section(id="notificationPanel", class="notification-panel", hidden)
         div(class="notification-head")

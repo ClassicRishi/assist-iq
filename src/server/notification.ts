@@ -1,33 +1,40 @@
 import { db } from "./mongoauth";
 
+function resolveUserEmail(user: any): string {
+    if (!user) return '';
+    if (Array.isArray(user)) return resolveUserEmail(user[0]);
+    if (typeof user === 'string') return user.trim();
+    return String(user.email ?? '').trim();
+}
+
 function getBurnsData(user: any) {
     const collection = db.collection('burns');
-    const burnsData = collection.find({ email: user.email }).toArray()
-    return burnsData;
+    const email = resolveUserEmail(user);
+    return email ? collection.find({ email }).toArray() : Promise.resolve([]);
 }
 
 function getAmbulanceData(user: any) {
     const collection = db.collection('ambulance');
-    const ambulanceData = collection.find({ email: user.email }).toArray()
-    return ambulanceData;
+    const email = resolveUserEmail(user);
+    return email ? collection.find({ email }).toArray() : Promise.resolve([]);
 }
 
 function getCutsData(user: any) {
     const collection = db.collection('cuts');
-    const cutsData = collection.find({ email: user.email }).toArray()
-    return cutsData;
+    const email = resolveUserEmail(user);
+    return email ? collection.find({ email }).toArray() : Promise.resolve([]);
 }
 
 function getFractureData(user: any) {
     const collection = db.collection('fracture');
-    const fracturesData = collection.find({ email: user.email }).toArray()
-    return fracturesData;
+    const email = resolveUserEmail(user);
+    return email ? collection.find({ email }).toArray() : Promise.resolve([]);
 }
 
 function getCPRData(user: any) {
     const collection = db.collection('cpr');
-    const crpData = collection.find({ email: user.email }).toArray()
-    return crpData;
+    const email = resolveUserEmail(user);
+    return email ? collection.find({ email }).toArray() : Promise.resolve([]);
 }
 
 export default {

@@ -1,13 +1,13 @@
 import {
   AngularNodeAppEngine,
   createNodeRequestHandler,
-  isMainModule,
-  writeResponseToNodeResponse,
+  writeResponseToNodeResponse
 } from '@angular/ssr/node';
 import 'dotenv/config';
 import express from 'express';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
+import { getLoggedInEmail, loginWithFirebase, registerWithFirebase, setLoggedInEmail } from './server/firebase-auth';
 import { FirstAid } from './server/firstaid';
 import { foodItems } from './server/food-delivery';
 import { mechanicShops } from './server/mechanic-shops';
@@ -15,8 +15,6 @@ import { db, MongoAuth } from './server/mongoauth';
 import services from './server/notification';
 import { policeStations } from './server/police-stations';
 import { userServices } from './server/user-services';
-
-let LoginedEmail = "" as any;
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -38,6 +36,35 @@ const app = express();
 const mongo = new MongoAuth()
 const firstaid = new FirstAid()
 
+async function renderUserDashboard(res: express.Response, email: string) {
+  const collection = db.collection('users');
+  const doc = await collection.find({ email }).toArray();
+
+  if (!doc[0]) {
+    res.redirect('/');
+    return;
+  }
+
+  const userData = doc[0];
+  const currentUser = { email };
+  const ambulance = await services.Ambulance(currentUser);
+  const burns = await services.Burns(currentUser);
+  const cpr = await services.CPR(currentUser);
+  const cuts = await services.Cuts(currentUser);
+  const fracture = await services.Fracture(currentUser);
+
+  res.render('user.pug', {
+    profile: userData,
+    services: userServices,
+    burns,
+    ambulance,
+    cpr,
+    cuts,
+    fracture,
+    year: new Date().getFullYear(),
+  });
+}
+
 app.set('view engine', 'pug');
 app.set('views', viewsDir);
 app.use(express.json());
@@ -51,30 +78,54 @@ app.use(
   }),
 );
 
-app.post('/login', (req, res) => {
-  LoginedEmail = req.body.email;
-  services.Ambulance(req.body).then(ambulance => {
-    services.Burns(req.body).then(burns => {
-      services.CPR(req.body).then(cpr => {
-        services.Cuts(req.body).then(cuts => {
-          services.Fracture(req.body).then(fracture => {
-            mongo.loginUser(req.body, res, burns, ambulance, cpr, cuts, fracture) as any;
-          })
-        })
-      })
-    })
-  })
+app.post('/login', async (req, res) => {
+  const email = String(req.body.email ?? '').trim();
+  const password = String(req.body.password ?? '');
+
+  const authResult = await loginWithFirebase(email, password);
+  if (!authResult.ok) {
+    res.send(authResult.message);
+    return;
+  }
+
+  setLoggedInEmail(authResult.email);
+  const loggedEmail = getLoggedInEmail();
+
+  services.Ambulance({ ...req.body, email: loggedEmail }).then(ambulance => {
+    services.Burns({ ...req.body, email: loggedEmail }).then(burns => {
+      services.CPR({ ...req.body, email: loggedEmail }).then(cpr => {
+        services.Cuts({ ...req.body, email: loggedEmail }).then(cuts => {
+          services.Fracture({ ...req.body, email: loggedEmail }).then(fracture => {
+            mongo.loginUser({ ...req.body, email: loggedEmail }, res, burns, ambulance, cpr, cuts, fracture) as any;
+          });
+        });
+      });
+    });
+  });
+});
+
+app.get('/user', async (_req, res) => {
+  const loggedEmail = getLoggedInEmail();
+
+  if (!loggedEmail) {
+    res.redirect('/');
+    return;
+  }
+
+  await renderUserDashboard(res, loggedEmail);
 });
 
 app.get('/mechanic-back', async (req, res) => {
   const collection = db.collection('users');
-  const doc = await collection.find({ email: LoginedEmail }).toArray()
-  services.Ambulance(doc).then(ambulance => {
-    services.Burns(doc).then(burns => {
-      services.CPR(doc).then(cpr => {
-        services.Cuts(doc).then(cuts => {
-          services.Fracture(doc).then(fracture => {
-            res.render("user.pug", { profile: doc[0], services: userServices, burns, ambulance, cpr, cuts, fracture });
+  const loggedEmail = getLoggedInEmail();
+  const doc = await collection.find({ email: loggedEmail }).toArray();
+  const currentUser = { email: loggedEmail };
+  services.Ambulance(currentUser).then(ambulance => {
+    services.Burns(currentUser).then(burns => {
+      services.CPR(currentUser).then(cpr => {
+        services.Cuts(currentUser).then(cuts => {
+          services.Fracture(currentUser).then(fracture => {
+            res.render("user.pug", { profile: doc[0], services: userServices, burns, ambulance, cpr, cuts, fracture, year: new Date().getFullYear() });
           })
         })
       })
@@ -84,13 +135,15 @@ app.get('/mechanic-back', async (req, res) => {
 
 app.get('/police-back', async (req, res) => {
   const collection = db.collection('users');
-  const doc = await collection.find({ email: LoginedEmail }).toArray()
-  services.Ambulance(doc).then(ambulance => {
-    services.Burns(doc).then(burns => {
-      services.CPR(doc).then(cpr => {
-        services.Cuts(doc).then(cuts => {
-          services.Fracture(doc).then(fracture => {
-            res.render("user.pug", { profile: doc[0], services: userServices, burns, ambulance, cpr, cuts, fracture });
+  const loggedEmail = getLoggedInEmail();
+  const doc = await collection.find({ email: loggedEmail }).toArray();
+  const currentUser = { email: loggedEmail };
+  services.Ambulance(currentUser).then(ambulance => {
+    services.Burns(currentUser).then(burns => {
+      services.CPR(currentUser).then(cpr => {
+        services.Cuts(currentUser).then(cuts => {
+          services.Fracture(currentUser).then(fracture => {
+            res.render("user.pug", { profile: doc[0], services: userServices, burns, ambulance, cpr, cuts, fracture, year: new Date().getFullYear() });
           })
         })
       })
@@ -99,18 +152,29 @@ app.get('/police-back', async (req, res) => {
 })
 
 app.post('/register', async (req, res) => {
-  LoginedEmail = req.body.email
-  services.Ambulance(req.body).then(ambulance => {
-    services.Burns(req.body).then(burns => {
-      services.CPR(req.body).then(cpr => {
-        services.Cuts(req.body).then(cuts => {
-          services.Fracture(req.body).then(fracture => {
-            mongo.registerUser(req.body, res, burns, ambulance, cpr, cuts, fracture) as any;
-          })
-        })
-      })
-    })
-  })
+  const email = String(req.body.email ?? '').trim();
+  const password = String(req.body.password ?? '');
+
+  const authResult = await registerWithFirebase(email, password);
+  if (!authResult.ok) {
+    res.send(authResult.message);
+    return;
+  }
+
+  setLoggedInEmail(authResult.email);
+  const loggedEmail = getLoggedInEmail();
+
+  services.Ambulance({ ...req.body, email: loggedEmail }).then(ambulance => {
+    services.Burns({ ...req.body, email: loggedEmail }).then(burns => {
+      services.CPR({ ...req.body, email: loggedEmail }).then(cpr => {
+        services.Cuts({ ...req.body, email: loggedEmail }).then(cuts => {
+          services.Fracture({ ...req.body, email: loggedEmail }).then(fracture => {
+            mongo.registerUser({ ...req.body, email: loggedEmail }, res, burns, ambulance, cpr, cuts, fracture) as any;
+          });
+        });
+      });
+    });
+  });
 });
 
 app.get('/police-stations', (_req, res) => {
@@ -118,18 +182,21 @@ app.get('/police-stations', (_req, res) => {
 })
 
 app.get('/food-delievery', (_req, res) => {
-  console.log(LoginedEmail);
-  res.render('food-delivery', { foods: foodItems, email: LoginedEmail });
+  const loggedEmail = getLoggedInEmail();
+  console.log(loggedEmail);
+  res.render('food-delivery', { foods: foodItems, email: loggedEmail });
 })
 
 app.get('/food-back', async (_req, res) => {
   const collection = db.collection('users');
-  const doc = await collection.find({ email: LoginedEmail }).toArray();
-  services.Ambulance(doc).then(ambulance => {
-    services.Burns(doc).then(burns => {
-      services.CPR(doc).then(cpr => {
-        services.Cuts(doc).then(cuts => {
-          services.Fracture(doc).then(fracture => {
+  const loggedEmail = getLoggedInEmail();
+  const doc = await collection.find({ email: loggedEmail }).toArray();
+  const currentUser = { email: loggedEmail };
+  services.Ambulance(currentUser).then(ambulance => {
+    services.Burns(currentUser).then(burns => {
+      services.CPR(currentUser).then(cpr => {
+        services.Cuts(currentUser).then(cuts => {
+          services.Fracture(currentUser).then(fracture => {
             res.render('user.pug', {
               profile: doc[0],
               services: userServices,
@@ -138,6 +205,7 @@ app.get('/food-back', async (_req, res) => {
               cpr,
               cuts,
               fracture,
+              year: new Date().getFullYear(),
             });
           });
         });
@@ -148,6 +216,7 @@ app.get('/food-back', async (_req, res) => {
 
 app.post('/add-to-cart', (req, res) => {
   const collection = db.collection('carts');
+  const loggedEmail = getLoggedInEmail();
   const item = {
     foodname: req.body.foodname,
     hotelname: req.body.hotelname,
@@ -158,15 +227,16 @@ app.post('/add-to-cart', (req, res) => {
     image_url: req.body.image_url || '/foodie.png'
   };
 
-  collection.insertOne({ email: LoginedEmail, item });
-  res.render('food-delivery', { foods: foodItems, email: LoginedEmail });
+  collection.insertOne({ email: loggedEmail, item });
+  res.render('food-delivery', { foods: foodItems, email: loggedEmail });
 })
 
 // Cart page route - displays user's cart items
 app.get('/my-cart', async (req, res) => {
   const cartCollection = db.collection('carts');
   const foodCollection = db.collection('foods');
-  const cartDocs = await cartCollection.find({ email: LoginedEmail }).toArray();
+  const loggedEmail = getLoggedInEmail();
+  const cartDocs = await cartCollection.find({ email: loggedEmail }).toArray();
 
   const cartItems = await Promise.all(
     cartDocs.map(async (doc) => {
@@ -201,17 +271,19 @@ app.get('/my-cart', async (req, res) => {
     }),
   );
 
-  res.render('user-cart', { email: LoginedEmail, cartItems });
+  res.render('user-cart', { email: loggedEmail, cartItems });
 })
 
 app.get('/food-delivery', (req, res) => {
-  res.render('food-delivery', { foods: foodItems, email: LoginedEmail });
+  const loggedEmail = getLoggedInEmail();
+  res.render('food-delivery', { foods: foodItems, email: loggedEmail });
 })
 
 app.post('/delete-item', async (req, res) => {
+  const loggedEmail = getLoggedInEmail();
   const doc = JSON.parse(req.body.cartIndex)
   const collection = db.collection("carts");
-  await collection.deleteOne({ email: LoginedEmail, 'item.foodname': doc['foodname'] })
+  await collection.deleteOne({ email: loggedEmail, 'item.foodname': doc['foodname'] })
 
   res.send("Deleted !!")
 })
@@ -231,8 +303,13 @@ app.post('/savechanges', (req, res) => {
   })
 })
 
+app.get('/logout', (_req, res) => {
+  setLoggedInEmail('');
+  res.redirect('/');
+});
+
 app.get('/first-aid', (req, res) => {
-  res.render("firstaid", { LoginedEmail })
+  res.render('firstaid', { LoginedEmail: getLoggedInEmail() })
 })
 
 app.get('/firstaid/response/added', (_req, res) => {
